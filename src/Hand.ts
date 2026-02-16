@@ -1,8 +1,8 @@
 import { Container } from "pixi.js"
-import { Card, EmptyCardSlot } from "./Card"
+import { Card, cardHeight, cardWidth, EmptyCardSlot } from "./Card"
 import { deck } from "./Deck"
 
-export class Hand extends Container<Card> {
+export class Hand extends Container {
     cards: Card[] = []
 
     gap = 20
@@ -12,6 +12,11 @@ export class Hand extends Container<Card> {
 
     constructor() {
         super()
+
+        this.setSize(
+            this.paddingSides * 2 + this.gap * 3 + cardWidth * 4,
+            this.paddingBottom * 2 + this.gap + cardHeight * 2,
+        )
 
         this.cards = [
             new EmptyCardSlot(),
@@ -24,7 +29,7 @@ export class Hand extends Container<Card> {
             new EmptyCardSlot(),
         ]
         this.addChild(...this.cards)
-        this.layout()
+        this.setup()
     }
 
     draw(number: number) {
@@ -48,20 +53,27 @@ export class Hand extends Container<Card> {
         throw new Error("No more empty slots!")
     }
 
-    layout() {
+    getHappiness() {
+        let happiness = 0
+    
+        for (const card of this.cards) {
+            happiness += card.getHappiness()
+        }
+
+        return happiness
+    }
+
+    setup() {
         let cx = this.paddingSides
-        let cy = this.cards[0].height + this.paddingBottom
-        let dx = this.cards[0].width + this.gap
-        let dy = this.cards[0].height + this.gap
+        let cy = cardHeight + this.paddingBottom
+        let dx = cardWidth + this.gap
+        let dy = cardHeight + this.gap
 
         for (const [i, card] of this.cards.entries()) {
             card.x = i % 4 * dx + cx
             card.y = window.innerHeight - Math.floor(i / 4) * dy - cy
-
-            // if (card.draggable) {
-            //     card.x += (Math.random() - 0.5) * this.jiggle
-            //     card.y += (Math.random() - 0.5) * this.jiggle
-            // }
         }
     }
 }
+
+export const hand = new Hand()

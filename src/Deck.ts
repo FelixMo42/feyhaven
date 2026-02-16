@@ -5,7 +5,8 @@ interface ActiveEffect {
 }
 
 interface PassiveEffect {
-    desc: string
+    desc: string,
+    func: () => number
 }
 
 export interface CardInfo {
@@ -34,6 +35,10 @@ function load_cards(): CardInfo[] {
             name,
             active: {
                 desc: effect,
+            },
+            passive: {
+                desc: `+ ${value} joy`,
+                func: () => Number(value),
             },
             default: inStartDeck === '1',
         } as CardInfo))

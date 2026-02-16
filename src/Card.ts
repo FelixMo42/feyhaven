@@ -1,4 +1,4 @@
-import { Graphics, Text } from 'pixi.js'
+import { ContainerChild, Graphics, Text } from 'pixi.js'
 import Draggable, { DropTarget } from './Draggable'
 import { Hand } from './Hand'
 import { CardInfo } from './Deck'
@@ -6,7 +6,7 @@ import { CardInfo } from './Deck'
 export const cardWidth = 200
 export const cardHeight = 300
 
-export class Card extends Draggable implements DropTarget {
+export class Card extends Draggable implements DropTarget, ContainerChild {
     graphic = new Graphics()
     parent: Hand | null = null
     info: CardInfo
@@ -21,6 +21,12 @@ export class Card extends Draggable implements DropTarget {
 
         this.on("mouseover", this.startHover.bind(this))
         this.on("mouseleave", this.stopHover.bind(this))
+    }
+
+    getHappiness() {
+        if (this.info.passive)
+            return this.info.passive.func()
+        return 0
     }
 
     draw() {
@@ -43,16 +49,28 @@ export class Card extends Draggable implements DropTarget {
             }
         }))
 
-        if (this.info.active) {
-            this.graphic.addChild(new Text({
-                text: "Ability: " + this.info.active.desc,
-                x: 10,
-                y: cardHeight - 50,
-                style: {
-                    fontSize: 20,
-                }
-            }))
-        }
+        this.graphic.addChild(new Text({
+            text: this.getDesc(),
+            x: 10,
+            y: cardHeight - 20,
+            anchor: { x: 0, y: 1 },
+            style: {
+                fontSize: 20,
+                wordWrap: true,
+                wordWrapWidth: cardWidth - 20
+            }
+        }))
+    }
+
+    getDesc() {
+        let text = ""
+
+        if (this.info.active) 
+            text += "\n\nAbility: " + this.info.active.desc
+        if (this.info.passive) 
+            text += "\n\nPassive: " + this.info.passive.desc
+
+        return text
     }
 
     startHover() {
@@ -75,6 +93,7 @@ export class EmptyCardSlot extends Card {
     constructor() {
         super({
             name: "[[empty]]",
+            default: false,
         })
     }
 
@@ -97,7 +116,7 @@ export class EmptyCardSlot extends Card {
         card.parent!.cards[a] = card
         card.parent!.cards[b] = this
 
-        card.parent!.layout()
+        card.parent!.setup()
 
         return true
     }
