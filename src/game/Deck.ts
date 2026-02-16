@@ -1,4 +1,4 @@
-import csv from "../../cards.csv" with { type: "text" }
+import { allCards } from "./Reserve"
 
 interface ActiveEffect {
     desc: string
@@ -17,40 +17,12 @@ export interface CardInfo {
 }
 
 class Deck {
-    cards = load_cards()
-    deck = shuffle(this.cards.filter(card => card.default))
+    cards = allCards
+    deck = []
 
     pick(): CardInfo {
         return this.deck.pop()!
     }
-}
-
-function load_cards(): CardInfo[] {
-    return csv
-        .split('\n')
-        .slice(1)
-        .filter((line) => line.trim().length > 0)
-        .map((line) => line.split(',').map((cell) => cell.trim()))
-        .map(([value, name, effect, tags, inStartDeck]) => ({
-            name,
-            active: {
-                desc: effect,
-            },
-            passive: {
-                desc: `+ ${value} joy`,
-                func: () => Number(value),
-            },
-            default: inStartDeck === '1',
-        } as CardInfo))
-}
-
-function shuffle<T>(arr: T[]) {
-    for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1))
-        // Swap elements
-        ;[arr[i], arr[j]] = [arr[j], arr[i]]
-    }
-    return arr
 }
 
 export const deck = new Deck()

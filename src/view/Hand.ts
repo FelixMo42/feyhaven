@@ -1,6 +1,6 @@
 import { Container } from "pixi.js"
 import { Card, cardHeight, cardWidth, EmptyCardSlot } from "./Card"
-import { deck } from "../game/Deck"
+import { _, game } from "../game/Game"
 
 export class Hand extends Container {
     cards: Card[] = []
@@ -26,19 +26,33 @@ export class Hand extends Container {
             new EmptyCardSlot(),
             new EmptyCardSlot(),
         ]
+    
         this.addChild(...this.cards)
-        this.setup()
+
+        _(undefined, this.update.bind(this))
+        this.update()
     }
 
-    draw(number: number) {
-        for (let i = 0; i < number; i++) {
-            const card = new Card(deck.pick())
-            const slot = this.findEmptySlot()
-            this.cards[this.cards.indexOf(slot)] = card
-            this.replaceChild(slot, card)
+    update() {
+        for (const c of this.cards) {
+            if (!game.hand.find(card => card == c.info)) {
+                const empty = new EmptyCardSlot()
+                this.replaceChild(c, empty)
+                c.destroy()
+                this.cards[this.cards.indexOf(c)] = empty
+            }
         }
 
-        return this
+        for (const c of game.hand) {
+            if (!this.cards.find(card => card.info === c)) {
+                const card = new Card(c)
+                const slot = this.findEmptySlot()
+                this.cards[this.cards.indexOf(slot)] = card
+                this.replaceChild(slot, card)
+            }
+        }
+
+        this.setup()
     }
 
     findEmptySlot() {
