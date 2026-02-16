@@ -1,5 +1,5 @@
 import { Container, EventBoundary, EventMode, FederatedPointerEvent } from 'pixi.js'
-import { app } from './app'
+import { app } from '../main'
 
 const dragState = {
     target: undefined as (Container | undefined),

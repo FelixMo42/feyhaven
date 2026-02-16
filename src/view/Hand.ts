@@ -1,6 +1,6 @@
 import { Container } from "pixi.js"
 import { Card, cardHeight, cardWidth, EmptyCardSlot } from "./Card"
-import { deck } from "./Deck"
+import { deck } from "../game/Deck"
 
 export class Hand extends Container {
     cards: Card[] = []

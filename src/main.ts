@@ -1,16 +1,16 @@
 import "pixi.js"
 import "@pixi/layout"
 
-import { Container } from 'pixi.js';
+import { Application, Container } from 'pixi.js';
 import { LayoutContainer, Text } from "@pixi/layout/components";
-import { Hand } from './Hand'
-import { init } from './app'
-import { ProgressBar } from "./ProgressBar";
-import { Col, Row } from "./Layouts";
 
-const todo = [
-    "pay bills",
-]
+import { Hand } from './view/Hand'
+import { ProgressBar } from "./view/ProgressBar";
+import { Col, Row } from "./view/Layouts";
+
+import { deck } from "./game/Deck";
+
+export const app = new Application()
 
 function Todo() {
     const container = new Container({
@@ -55,7 +55,8 @@ function Todo() {
 }
 
 async function main() {
-    const app = await init()
+    await app.init({ background: '#1099bb', resizeTo: window })
+    document.body.appendChild(app.canvas)
 
     app.stage.layout = {
         width: window.innerWidth,
@@ -123,7 +124,7 @@ function Dialog() {
             Row([
                 new LayoutContainer({ layout: { flex: 1 } }),
                 new Text({
-                    text: "???/??? in deck",
+                    text: `???/${deck.deck.length} in deck`,
                     layout: true,
                 }),
             ])

@@ -1,7 +1,7 @@
 import { ContainerChild, Graphics, Text } from 'pixi.js'
 import Draggable, { DropTarget } from './Draggable'
 import { Hand } from './Hand'
-import { CardInfo } from './Deck'
+import { CardInfo } from '../game/Deck'
 
 export const cardWidth = 200
 export const cardHeight = 300

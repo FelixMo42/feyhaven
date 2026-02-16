@@ -1,4 +1,4 @@
-import csv from "./cards.csv" with { type: "text" }
+import csv from "../../cards.csv" with { type: "text" }
 
 interface ActiveEffect {
     desc: string
