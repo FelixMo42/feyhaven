@@ -1,5 +1,6 @@
 import { Container } from "pixi.js"
-import { Card } from "./Card"
+import { Card, EmptyCardSlot } from "./Card"
+import { deck } from "./Deck"
 
 export class Hand extends Container<Card> {
     cards: Card[] = []
@@ -9,11 +10,42 @@ export class Hand extends Container<Card> {
     paddingSides = 20
     jiggle = 10
 
-    constructor(cards: Card[]) {
+    constructor() {
         super()
-        this.cards = cards
-        this.addChild(...cards)
+
+        this.cards = [
+            new EmptyCardSlot(),
+            new EmptyCardSlot(),
+            new EmptyCardSlot(),
+            new EmptyCardSlot(),
+            new EmptyCardSlot(),
+            new EmptyCardSlot(),
+            new EmptyCardSlot(),
+            new EmptyCardSlot(),
+        ]
+        this.addChild(...this.cards)
         this.layout()
+    }
+
+    draw(number: number) {
+        for (let i = 0; i < number; i++) {
+            const card = new Card(deck.pick())
+            const slot = this.findEmptySlot()
+            this.cards[this.cards.indexOf(slot)] = card
+            this.replaceChild(slot, card)
+        }
+
+        return this
+    }
+
+    findEmptySlot() {
+        for (const card of this.cards) {
+            if (card.info.name == "[[empty]]") {
+                return card
+            }
+        }
+
+        throw new Error("No more empty slots!")
     }
 
     layout() {

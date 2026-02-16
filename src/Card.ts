@@ -1,6 +1,7 @@
-import { Graphics } from 'pixi.js'
+import { Graphics, Text } from 'pixi.js'
 import Draggable, { DropTarget } from './Draggable'
 import { Hand } from './Hand'
+import { CardInfo } from './Deck'
 
 export const cardWidth = 200
 export const cardHeight = 300
@@ -8,9 +9,12 @@ export const cardHeight = 300
 export class Card extends Draggable implements DropTarget {
     graphic = new Graphics()
     parent: Hand | null = null
+    info: CardInfo
 
-    constructor() {
+    constructor(info: CardInfo) {
         super()
+
+        this.info = info
 
         this.draw()
         this.addChild(this.graphic)
@@ -21,14 +25,34 @@ export class Card extends Draggable implements DropTarget {
 
     draw() {
         this.graphic.filletRect(
-            (Math.random() - 0.5) * 10,
-            (Math.random() - 0.5) * 10,
+            0,
+            0,
             cardWidth,
             cardHeight,
             10
         )
         this.graphic.fill('teal')
         this.graphic.stroke("black")
+
+        this.graphic.addChild(new Text({
+            text: this.info.name,
+            x: 10,
+            y: 10,
+            style: {
+                fontSize: 20,
+            }
+        }))
+
+        if (this.info.active) {
+            this.graphic.addChild(new Text({
+                text: "Ability: " + this.info.active.desc,
+                x: 10,
+                y: cardHeight - 50,
+                style: {
+                    fontSize: 20,
+                }
+            }))
+        }
     }
 
     startHover() {
@@ -47,6 +71,12 @@ export class Card extends Draggable implements DropTarget {
 export class EmptyCardSlot extends Card {
     draggable = false
     cursor = "default"
+
+    constructor() {
+        super({
+            name: "[[empty]]",
+        })
+    }
 
     draw() {
         this.graphic.filletRect(0, 0, cardWidth, cardHeight, 10)

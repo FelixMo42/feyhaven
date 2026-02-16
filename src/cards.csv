@@ -1,0 +1,52 @@
+joy, name                         , effect              , tags           , in
+  1, Beth; the Cute Girl Next Door, draw 2              , person         ,  1
+  5, Chad the Dad                 , money 100           , person liny bar,   
+  1, Diel                         , draw 3              , person vole    ,   
+  1, Esti                         , ____                , person         ,   
+  1, Finn                         , ____                , person         ,   
+  7, Gwen                         , "lot's of happiness", person liny    ,   
+  1, Hugo                         , ____                , person         ,   
+  1, Ivan; the kindly stranger    , pick place          , person         ,  1
+  1, Jake                         , ____                , person         ,   
+  1, Kazi                         , ____                , person vole    ,   
+  1, Cousin Liny                  , gain liny           , person         ,  1
+  1, Mose                         , ____                , person         ,   
+  1, Norm                         , ____                , person bar     ,   
+  1, Owen                         , pick posession      , person liny    ,   
+  1, Pete                         , ____                , person         ,   
+  1, Quin                         , ____                , person         ,   
+  1, Ryan                         , joy place           , person         ,   
+  1, Scut                         , "eat my shorts"     , person         ,   
+  1, Trea Torvalds                , gain posession      , person         ,   
+  1, Ursa                         , pick person         , person liny    ,   
+  1, Vera                         , ____                , person         ,   
+  1, Wren                         , ____                , person         ,   
+  1, Xena                         , ____                , person         ,   
+  1, Yzma                         , ____                , person         ,   
+  1, Zara                         , ____                , person         ,   
+
+  1, The Bar                      , gain bar            , place          ,  1
+  1, The Mall                     , ____                , place          ,  1
+  1, The sidewalk                 , gain place          , place          ,  1
+  1, Police Station               , pick posession      , place          ,   
+  1, Metro Stop                   , pick place          , place          ,   
+  1, Phone booth                  , pick person         , place          ,   
+  1, The Secret Spot              , joy person          , place          ,   
+  1, Public library               , draw 2              , place          ,   
+  1, Food not Bombs               , ____                , place          ,   
+  1, Cloths go Around             , ____                , place          ,   
+  1, Hospital                     , ____                , place          ,   
+  1, The Office                   , money 1000          , place          ,   
+  7, Arcade                       , "lot's of happiness", place          ,   
+  1, Community Mercantile         , "Sell item"         , place          ,   
+  1, Your apartment               , joy posession       , place          ,  1
+  1, The Bank                     , ____                , place          ,   
+
+  1, iPhone 14                    , pick person         , posession      ,  1
+  1, City map                     , pick place          , posession      ,   
+  1, AirTag                       , pick posession      , posession      ,   
+  1, 2016 Honda Civic             , redraw              , posession      ,  1
+  7, Stuffed Animal               , "lot's of happiness", posession      ,  1
+  1, Mushroom Guide               , joy place           , posession      ,   
+  1, A nice japanese knife        , ____                , posession      ,   
+  1, 9 Gold Doubloons             , gain 10000          , posession      ,   

@@ -4,16 +4,7 @@ import { Hand } from './Hand'
 
 async function main() {
     await init([
-        new Hand([
-            new Card(),
-            new Card(),
-            new Card(),
-            new Card(),
-            new Card(),
-            new Card(),
-            new Card(),
-            new EmptyCardSlot(),
-        ])
+        new Hand().draw(7)
     ])
 }
 
