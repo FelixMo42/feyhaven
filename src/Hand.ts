@@ -6,17 +6,15 @@ export class Hand extends Container {
     cards: Card[] = []
 
     gap = 20
-    paddingBottom = 20
-    paddingSides = 20
     jiggle = 10
 
     constructor() {
         super()
 
-        this.setSize(
-            this.paddingSides * 2 + this.gap * 3 + cardWidth * 4,
-            this.paddingBottom * 2 + this.gap + cardHeight * 2,
-        )
+        this.layout = {
+            width: 2 + this.gap * 3 + cardWidth * 4,
+            height: this.gap + cardHeight * 2,
+        }
 
         this.cards = [
             new EmptyCardSlot(),
@@ -64,16 +62,12 @@ export class Hand extends Container {
     }
 
     setup() {
-        let cx = this.paddingSides
-        let cy = cardHeight + this.paddingBottom
         let dx = cardWidth + this.gap
         let dy = cardHeight + this.gap
 
         for (const [i, card] of this.cards.entries()) {
-            card.x = i % 4 * dx + cx
-            card.y = window.innerHeight - Math.floor(i / 4) * dy - cy
+            card.x = i % 4 * dx
+            card.y = Math.floor(i / 4) * dy
         }
     }
 }
-
-export const hand = new Hand()

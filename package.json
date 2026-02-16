@@ -3,14 +3,14 @@
     "version": "0.1.0",
     "private": true,
     "type": "module",
-    "main": "src/server.tsx",
-    "module": "src/main.tsx",
+    "module": "src/main.ts",
     "scripts": {
-        "dev": "bun --hot src/server.tsx",
-        "build": "bun build ./src/index.html --outdir=dist --sourcemap --target=browser --minify --define:process.env.NODE_ENV='\"production\"' --env='BUN_PUBLIC_*'",
-        "start": "NODE_ENV=production bun src/index.tsx"
+        "dev": "bun build ./src/index.html --watch --outdir=dist --sourcemap --target=browser --minify",
+        "build": "bun build ./src/index.html --outdir=dist --target=browser --minify"
     },
     "dependencies": {
+        "@pixi/layout": "^3.2.0",
+        "@pixi/ui": "^2.3.2",
         "pixi.js": "8.16.0"
     },
     "devDependencies": {
