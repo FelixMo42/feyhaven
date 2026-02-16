@@ -1,7 +1,7 @@
-import { LayoutContainer, Text } from "@pixi/layout/components"
+import { LayoutContainer, LayoutGraphics, Text } from "@pixi/layout/components"
 import { Button } from "@pixi/ui"
 import { Container, Graphics } from "pixi.js"
-import { game } from "../game/Game"
+import { game, _ } from "../game/Game"
 
 export function ProgressBar() {
     const container = new Container({
@@ -23,24 +23,34 @@ function HappinessIsAWarmGun() {
     const container = new LayoutContainer({
         layout: {
             flex: 1,
-            // backgroundColor: "gray",
             borderRadius: 10,
-            flexDirection: 'column',
+            flexDirection: 'column-reverse',
             gap: 5,
         }
     })
 
     for (let i = 0; i < 6; i++)
-        container.addChild(new LayoutContainer({
+        container.addChild(_(new LayoutContainer({
             layout: {
                 flex: 1,
                 borderWidth: 2,
                 borderColor: "black",
-                backgroundColor: "grey",
+                backgroundColor: i == 0 ? "red" : "grey",
                 borderRadius: 10,
             }
+        }), (view: LayoutContainer) => {
+            if (i == game.turn) {
+                view.layout!.setStyle({
+                    backgroundColor: "red",
+                })
+            }
+            if (i < game.turn) {
+                view.layout!.setStyle({
+                    backgroundColor: "black",
+                })
+            }
         }))
-
+        
     return container
 }
 

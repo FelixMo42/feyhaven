@@ -9,30 +9,41 @@ interface PassiveEffect {
     func: () => number
 }
 
-export interface Card {
-    name: string,
-    active?: ActiveEffect,
-    passive?: PassiveEffect,
-    default: boolean,
+export class Card {
+    name: string
+    active?: ActiveEffect
+    passive?: PassiveEffect
+    default: boolean
+
+    constructor(name: string, active?: ActiveEffect, passive?: PassiveEffect, def: boolean = false) {
+        this.name = name
+        this.active = active
+        this.passive = passive
+        this.default = def
+    }
+
+    joyGain() {
+        return this.passive?.func() ?? 0
+    }
 }
 
 function load_cards(): Card[] {
-    return csv
+    return (csv as string)
         .split('\n')
         .slice(1)
         .filter((line) => line.trim().length > 0)
         .map((line) => line.split(',').map((cell) => cell.trim()))
-        .map(([value, name, effect, tags, inStartDeck]) => ({
+        .map(([value, name, effect, tags, inStartDeck]) => new Card(
             name,
-            active: {
+            {
                 desc: effect,
             },
-            passive: {
+            {
                 desc: `+ ${value} joy`,
                 func: () => Number(value),
             },
-            default: inStartDeck === '1',
-        } as Card))
+            inStartDeck === '1',
+        ))
 }
 
 export const allCards = load_cards()
@@ -44,3 +55,4 @@ export function shuffle<T>(arr: T[]) {
     }
     return arr
 }
+

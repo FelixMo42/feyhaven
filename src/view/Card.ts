@@ -9,9 +9,9 @@ export const cardHeight = 300
 export class Card extends Draggable implements DropTarget, ContainerChild {
     graphic = new Graphics()
     parent: Hand | null = null
-    info: CardInfo
+    info?: CardInfo
 
-    constructor(info: CardInfo) {
+    constructor(info?: CardInfo) {
         super()
 
         this.info = info
@@ -24,7 +24,7 @@ export class Card extends Draggable implements DropTarget, ContainerChild {
     }
 
     getHappiness() {
-        if (this.info.passive)
+        if (this.info?.passive)
             return this.info.passive.func()
         return 0
     }
@@ -41,7 +41,7 @@ export class Card extends Draggable implements DropTarget, ContainerChild {
         this.graphic.stroke("black")
 
         this.graphic.addChild(new Text({
-            text: this.info.name,
+            text: this.info?.name,
             x: 10,
             y: 10,
             style: {
@@ -67,9 +67,9 @@ export class Card extends Draggable implements DropTarget, ContainerChild {
     getDesc() {
         let text = ""
 
-        if (this.info.active) 
+        if (this.info?.active) 
             text += "\n\nAbility: " + this.info.active.desc
-        if (this.info.passive) 
+        if (this.info?.passive) 
             text += "\n\nPassive: " + this.info.passive.desc
 
         return text
@@ -93,10 +93,7 @@ export class EmptyCardSlot extends Card {
     cursor = "default"
 
     constructor() {
-        super({
-            name: "[[empty]]",
-            default: false,
-        })
+        super()
     }
 
     draw() {

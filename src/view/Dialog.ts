@@ -54,19 +54,25 @@ export function Dialog() {
             new LayoutContainer({
                 layout: {
                     flexDirection: 'row',
+                    gap: 40,
                 },
                 children: [
                     new LayoutContainer({ layout: { flex: 1 } }),
-                    _(new Text({
-                        text: `${game.deck.length}/${game.cardCount} in deck`,
-                        layout: true,
-                    }), (view: Text) => {
-                        view.text = `${game.deck.length}/${game.cardCount} in deck`
-                    }),
+                    T(() => `${game.life}+${game.getJoyGain()}=${game.life + game.getJoyGain()}/100 joy`),
+                    T(() => `${game.deck.length}/${game.cardCount} in deck`),
                 ]
             })
         ]
     }))
 
     return container
+}
+
+function T(cb: () => string) {
+    return _(new Text({
+        text: cb(),
+        layout: true,
+    }), (view: Text) => {
+        view.text = cb()
+    })
 }

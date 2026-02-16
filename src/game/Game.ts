@@ -9,8 +9,27 @@ class Game {
     life = 0
     $$$$ = 1500
 
+    bill = [
+        {
+            name: "Rent",
+            amount: 700,
+        },
+        {
+            name: "Groceries",
+            amount: 150,
+        },
+        {
+            name: "Dentist appointment",
+            amount: 210,
+        },
+    ]
+
     constructor() {
         this.draw(7)
+    }
+
+    get expenses() {
+        return this.bill.reduce((acc, bill) => acc + bill.amount, 0)
     }
 
     get cardCount() {
@@ -28,7 +47,17 @@ class Game {
         }
     }
 
+    getJoyGain() {
+        let happiness = 0
+        for (const card of this.hand) {
+            happiness += card.joyGain()
+        }
+        return happiness
+    }
+
     nextTurn() {
+        this.life += this.getJoyGain()
+        this.$$$$ -= this.expenses
         this.turn++
         this.deck = shuffle([
             ...this.deck,

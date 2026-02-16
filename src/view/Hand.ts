@@ -57,9 +57,7 @@ export class Hand extends Container {
 
     findEmptySlot() {
         for (const card of this.cards) {
-            if (card.info.name == "[[empty]]") {
-                return card
-            }
+            if (!card.info) return card
         }
 
         throw new Error("No more empty slots!")
