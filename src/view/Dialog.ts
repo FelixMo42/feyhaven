@@ -58,7 +58,7 @@ export function Dialog() {
                 },
                 children: [
                     new LayoutContainer({ layout: { flex: 1 } }),
-                    T(() => `${game.life}+${game.getJoyGain()}=${game.life + game.getJoyGain()}/100 joy`),
+                    T(() => `${game.life}+${game.getJoyGain()}=${game.life + game.getJoyGain()}/365 joy`),
                     T(() => `${game.deck.length}/${game.cardCount} in deck`),
                 ]
             })
