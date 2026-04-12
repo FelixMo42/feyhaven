@@ -196,13 +196,19 @@ function CardFace({
 }) {
 	return (
 		<div
-			class={`card-face touch-none select-none rounded-[0.9rem] border-2 border-black p-2 shadow-sm ${
+			data-card-face="true"
+			class={`card-face pointer-events-auto touch-none select-none rounded-[0.9rem] border-2 border-black p-2 shadow-sm ${
 				isDragging
 					? 'cursor-grabbing bg-white shadow-2xl'
 					: 'cursor-grab bg-[rgba(255,255,255,0.92)]'
 			}`}
 			style={!isDragging ? { transform: card.organicTransform } : undefined}
-			onPointerDown={(event) => onPointerDown?.(event as PointerEvent)}
+			onPointerDown={(event) => {
+				event.preventDefault();
+				event.stopPropagation();
+				(event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+				onPointerDown?.(event as PointerEvent);
+			}}
 		>
 			<div class="flex h-full flex-col justify-between">
 				<div class="flex items-start justify-between gap-2">
@@ -227,13 +233,13 @@ function CardFace({
 function Slot({
 	card,
 	index,
-	onPointerDown,
 	isDragging = false,
+	onPointerDown,
 }: {
 	card?: HandCard;
 	index: number;
-	onPointerDown: (index: number, event: PointerEvent) => void;
 	isDragging?: boolean;
+	onPointerDown: (index: number, event: PointerEvent) => void;
 }) {
 	return (
 		<div
@@ -242,7 +248,7 @@ function Slot({
 		>
 			<div class="card-slot-shell pointer-events-none absolute inset-0 rounded-[0.9rem] border-2 border-dashed border-slate-500/70" />
 			{card ? (
-				<div class="card-slot-card absolute inset-[2px]">
+				<div class="card-slot-card pointer-events-none absolute inset-[2px]">
 					<CardFace
 						card={card}
 						isDragging={isDragging}
@@ -282,14 +288,18 @@ export function App() {
 				const nextHand = [...currentState.hand];
 				const originIndex = dragging.index;
 				const movedCard = nextHand[originIndex];
-				const targetElement = document
-					.elementFromPoint(event.clientX, event.clientY)
-					?.closest<HTMLElement>('[data-slot-index]');
+				const pointX = event.clientX;
+				const pointY = event.clientY;
 				const boardElement = document
-					.elementFromPoint(event.clientX, event.clientY)
-					?.closest<HTMLElement>('[data-drop-zone="board"]');
-				const targetIndex = targetElement
-					? Number(targetElement.dataset.slotIndex)
+					.querySelector<HTMLElement>('[data-drop-zone="board"]');
+				const targetSlot = Array.from(
+					document.querySelectorAll<HTMLElement>('[data-slot-index]'),
+				).find((slot) => {
+					const rect = slot.getBoundingClientRect();
+					return pointX >= rect.left && pointX <= rect.right && pointY >= rect.top && pointY <= rect.bottom;
+				});
+				const targetIndex = targetSlot
+					? Number(targetSlot.dataset.slotIndex)
 					: Number.NaN;
 
 				if (!movedCard) {
@@ -297,13 +307,24 @@ export function App() {
 				}
 
 				if (boardElement) {
-					nextHand[originIndex] = undefined;
-					return {
-						...currentState,
-						hand: nextHand,
-						used: [...currentState.used, movedCard],
-						money: currentState.money + movedCard.value(),
-					};
+					const boardRect = boardElement.getBoundingClientRect();
+					const droppedOnBoard =
+						pointX >= boardRect.left &&
+						pointX <= boardRect.right &&
+						pointY >= boardRect.top &&
+						pointY <= boardRect.bottom;
+
+					if (!droppedOnBoard) {
+						// fall through to the hand-slot logic
+					} else {
+						nextHand[originIndex] = undefined;
+						return {
+							...currentState,
+							hand: nextHand,
+							used: [...currentState.used, movedCard],
+							money: currentState.money + movedCard.value(),
+						};
+					}
 				}
 
 				if (
@@ -362,8 +383,8 @@ export function App() {
 							key={index}
 							index={index}
 							card={card && dragging?.index !== index ? card : undefined}
-							onPointerDown={(slotIndex, event) => beginDrag(slotIndex, event)}
 							isDragging={dragging?.index === index}
+							onPointerDown={(slotIndex, event) => beginDrag(slotIndex, event)}
 						/>
 					))}
 				</div>
