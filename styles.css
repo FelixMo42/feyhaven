@@ -1,0 +1,91 @@
+:root {
+    --card-height: 350px;
+    --card-text-padding: 10px 15px;
+
+    font-size: 20px;
+}
+
+/* LAYOUT */
+
+body {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+}
+
+.g {
+    gap: 10px;
+}
+
+.flex {
+    flex: 1;
+}
+
+.p {
+    padding: 10px;
+}
+
+/* CARDS */
+
+.card_slot {
+    position: relative;
+    border: 2px dashed grey;
+
+    width: calc(var(--card-height) * 0.6);
+    height: var(--card-height);
+    border-radius: 10px;
+}
+
+.card {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+
+    background-color:antiquewhite;
+
+    transform: translate(
+      calc(var(--offset-x) * 1px),
+      calc(var(--offset-y) * 1px)
+    )
+    rotate(calc(var(--rotation) * 1deg));
+
+    display: flex;
+    flex-direction: column;
+}
+
+.card_name {
+    padding: 10px 0px;
+    padding-left: 15px;
+    padding-bottom: 5px;
+}
+
+.card_joy {
+    padding: 10px 0px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+    opacity: 70%;
+}
+
+.card_image {
+    flex: 1;
+    background-size: cover;
+    margin: 0px 10px;
+}
+
+.card_text {
+    padding: var(--card-text-padding);
+    text-align: center;
+}
