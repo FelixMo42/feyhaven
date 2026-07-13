@@ -5,26 +5,35 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="col">
-    <div class="flex row g p">
-        <div>joy: <span id="joy">0</span> (+<span id="joy_gain">0</span>)</div>
-        <div>deck: <span id="deck_count">0</span></div>
-        <div>discard: <span id="used_count">0</span></div>
-        <div><button id="end_turn">end turn</button></div>
-    </div>
-    <div id="cards" class="col g p">
-        <div class="row g">
-            <div id="card_0" class="card_slot"></div>
-            <div id="card_1" class="card_slot"></div>
-            <div id="card_2" class="card_slot"></div>
-            <div id="card_3" class="card_slot"></div>
+    <div class="row p">
+        <div>
+            <div class="flex row g p">
+                <div>joy: <span id="joy">0</span>/365 (+<span id="joy_gain">0</span>)</div>
+                <div>turn: <span id="turn">0</span>/6</div>
+                <div>deck: <span id="deck_count">0</span></div>
+                <div>discard: <span id="used_count">0</span></div>
+                <div><button id="end_turn">end turn</button></div>
+            </div>
+            <div id="cards" class="col g p">
+                <div class="row g">
+                    <div id="card_0" class="card_slot"></div>
+                    <div id="card_1" class="card_slot"></div>
+                    <div id="card_2" class="card_slot"></div>
+                    <div id="card_3" class="card_slot"></div>
+                </div>
+                <div class="row g">
+                    <div id="card_4" class="card_slot"></div>
+                    <div id="card_5" class="card_slot"></div>
+                    <div id="card_6" class="card_slot"></div>
+                    <div id="card_7" class="card_slot"></div>
+                </div>
+            </div>
         </div>
-        <div class="row g">
-            <div id="card_4" class="card_slot"></div>
-            <div id="card_5" class="card_slot"></div>
-            <div id="card_6" class="card_slot"></div>
-            <div id="card_7" class="card_slot"></div>
+        <div id="log" class="flex">
+
         </div>
     </div>
+    <div id="popup" class="hide">hi</div>
 </body>
 <script src="index.js" type="module"></script>
 </html>

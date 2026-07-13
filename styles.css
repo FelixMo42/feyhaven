@@ -89,3 +89,38 @@ body {
     padding: var(--card-text-padding);
     text-align: center;
 }
+
+/* LOGS */
+
+#log {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid grey;
+}
+
+.log {
+    
+}
+
+/* POPUP */
+
+#popup {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+}
+
+.hide {
+    display: none !important;
+}
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+}
