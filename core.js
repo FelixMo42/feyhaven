@@ -64,6 +64,10 @@ export function shuffle(arr=deck) {
     return arr
 }
 
+export function move(card, slot) {
+    card.slot = slot
+}
+
 export function draw(num=6) {
     for (let i = 0; i < num; i++) {
         if (deck.length == 0) return

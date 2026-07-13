@@ -64,6 +64,9 @@ body {
 
     display: flex;
     flex-direction: column;
+
+    cursor: grab;
+    user-select: none;
 }
 
 .card_name {
@@ -88,6 +91,10 @@ body {
 .card_text {
     padding: var(--card-text-padding);
     text-align: center;
+}
+
+.card * {
+    user-select: none;
 }
 
 /* LOGS */
@@ -123,4 +130,12 @@ body {
     justify-content: center;
     width: 100vw;
     height: 100vh;
+}
+
+/* DRAG */
+
+.dragging {
+    cursor: grabbing;
+    z-index: 10;
+    filter: drop-shadow(0px 0px 1px);
 }

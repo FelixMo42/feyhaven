@@ -1,5 +1,10 @@
 import cards from "./cards.js"
-import { log, hand, deck, used, gain, take, data, end_turn, calculate_joy_gain, discard, on, draw, shuffle } from "./core.js"
+import {
+    on, log,
+    hand, deck, used, data, 
+    gain, take, draw, end_turn, discard, shuffle,
+    calculate_joy_gain,
+} from "./core.js"
 
 function update() {
     document.getElementById("joy").innerText = data.joy
@@ -37,16 +42,110 @@ function card_view(card) {
     return view
 }
 
+const drag = {}
+const double_click = {
+    card: null,
+    time: 0,
+}
+const DOUBLE_CLICK_MS = 300
+const DRAG_THRESHOLD = 5
+
 on("draw_card", card => {
     const view = card_view(card)
 
     document.getElementById(`card_${card.slot}`).replaceChildren(view)
 
-    view.onclick = () => {
-        if ("used" in card) {
-            discard(card)
-            card.used()
-            update()
+    // view.onclick = _event => {
+    //     if ("used" in card) {
+    //         discard(card)
+    //         card.used()
+    //         update()
+    //     }
+    // }
+
+    view.onmousedown = _event => {
+        view.style.setProperty("--offset-x", 0)
+        view.style.setProperty("--offset-y", 0)
+        view.style.setProperty("--rotation", 0)
+
+        drag.view = view
+        drag.card = card
+        drag.x = _event.clientX
+        drag.y = _event.clientY
+        drag.moved = false
+        drag.ignore_click = false
+
+        view.classList.add("dragging")
+    }
+
+    view.onclick = _event => {
+        if (drag.ignore_click) {
+            drag.ignore_click = false
+            return
+        }
+
+        const now = Date.now()
+        const is_double_click =
+            double_click.card === card &&
+            now - double_click.time <= DOUBLE_CLICK_MS
+
+        if (is_double_click) {
+            double_click.card = null
+            double_click.time = 0
+            activate_card(card)
+            return
+        }
+
+        double_click.card = card
+        double_click.time = now
+    }
+})
+
+function is_slot_empty(slot) {
+    for (const card of hand) {
+        if (card.slot == slot) return false
+    }
+    return true
+}
+
+document.addEventListener("mouseup", event => {
+    if (!drag.view) return
+
+    // move card
+    const slot = get_slot_under_point(event.clientX, event.clientY)
+    if (slot) {
+        const slot_id = Number(slot.id.split("_")[1])
+        if (is_slot_empty(slot_id)) {
+            drag.card.slot = slot_id
+            slot.replaceChildren(drag.view)
+        }
+    }
+
+    // reset random offset
+    drag.view.style.setProperty("--offset-x", rand(2, -5))
+    drag.view.style.setProperty("--offset-y", rand(2, -5))
+    drag.view.style.setProperty("--rotation", rand(1, -1))
+
+    if (drag.moved) {
+        drag.ignore_click = true
+    }
+
+    // we are no longer dragging this
+    drag.view.classList.remove("dragging")
+    drag.view = null
+    drag.card = null
+})
+
+document.addEventListener("mousemove", event => {
+    if (!drag.view) return
+
+    drag.view.style.setProperty("--offset-x", event.clientX - drag.x)
+    drag.view.style.setProperty("--offset-y", event.clientY - drag.y)
+
+    if (!drag.moved) {
+        const distance = Math.hypot(event.clientX - drag.x, event.clientY - drag.y)
+        if (distance > DRAG_THRESHOLD) {
+            drag.moved = true
         }
     }
 })
@@ -126,6 +225,20 @@ function closePopup() {
 
 function rand(max, min=0) {
     return Math.random() * (max - min) + min
+}
+
+function activate_card(card) {
+    if (!("used" in card)) return
+
+    discard(card)
+    card.used()
+    update()
+}
+
+function get_slot_under_point(x, y) {
+    return document.elementsFromPoint(x, y).find(el =>
+        el.classList?.contains("card_slot")
+    ) ?? null
 }
 
 /**
