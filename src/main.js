@@ -1,7 +1,7 @@
 import cards from "./list.js"
 import {
     on, log, init,
-    hand, deck, used, data, 
+    pool, hand, deck, used, data, 
     gain, take, draw, end_turn, discard, shuffle, play,
     calculate_joy_gain,
 } from "./core.js"
@@ -126,11 +126,7 @@ document.addEventListener("mousemove", event => {
     }
 })
 
-on("pick", ({ tag, num }) => {
-    const options = shuffle(cards.filter(card =>
-        card.tags.includes(tag) && 
-        !card.has
-    )).slice(0, num)
+on("pick", ({ options }) => {
 
     openPopup(
         m("div.row.g.center",

@@ -14,11 +14,15 @@ Sources used to find artwork:
 
 ## Dev Backlog
 
-- action log
-- empty screen bug
-- too many cards
-- empty slot new hand bug
-- start screen
-- end screen
+bugs:
+- pick with no cards blocks the game
+- find with no cards blocks the game
+- if there are too many cards to choose from you can't see them
+- cards from previous hand are still shown in empty slots
+
+feats:
 - show cards in deck
 - show used cards
+- show art credits on hover
+- start screen
+- end screen
