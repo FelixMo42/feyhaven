@@ -1,8 +1,8 @@
 import cards from "./cards.js"
 import {
-    on, log,
+    on, log, init,
     hand, deck, used, data, 
-    gain, take, draw, end_turn, discard, shuffle,
+    gain, take, draw, end_turn, discard, shuffle, use,
     calculate_joy_gain,
 } from "./core.js"
 
@@ -54,14 +54,6 @@ on("draw_card", card => {
     const view = card_view(card)
 
     document.getElementById(`card_${card.slot}`).replaceChildren(view)
-
-    // view.onclick = _event => {
-    //     if ("used" in card) {
-    //         discard(card)
-    //         card.used()
-    //         update()
-    //     }
-    // }
 
     view.onmousedown = _event => {
         view.style.setProperty("--offset-x", 0)
@@ -208,16 +200,7 @@ function closePopup() {
 }
 
 {
-    // set initial cards
-    for (const card of cards) {
-        if (card.tags.includes("starter")) gain(card)
-    }
-    shuffle()
-
-    // draw starting hand
-    draw()
-
-    log("You've arrived in Feyhaven!")
+    init(cards)
 
     // refresh screen
     update()

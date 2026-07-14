@@ -9,8 +9,9 @@ function fire(event, data) {
 }
 
 // data
-export const hand = []
+export const pool = []
 export const deck = []
+export const hand = []
 export const used = []
 export const data = {
     joy: 0,
@@ -40,6 +41,22 @@ export function calculate_joy_gain() {
     return joy_gain
 }
 
+export function init(cards) {
+    // add all cards to the pool
+    pool.push(...cards)
+
+    // add initial cards to the deck
+    for (const card of cards) {
+        if (card.tags.includes("starter")) gain(card)
+    }
+    shuffle()
+
+    // draw starting hand
+    draw()
+
+    log("You've arrived in Feyhaven!")
+}
+
 export function discard(card) {
     document.getElementById(`card_${card.slot}`).replaceChildren()
     hand.splice(hand.indexOf(card), 1)
@@ -53,7 +70,14 @@ export function discard_all() {
 }
 
 export function pick(tag, num=3) {
-    fire("pick", { tag, num })
+    const options = shuffle(cards.filter(card =>
+        card.tags.includes(tag) && 
+        !card.has
+    )).slice(0, num)
+
+    if (options.length == 0) return false
+
+    fire("pick", { tag, num, options })
 }
 
 export function shuffle(arr=deck) {
@@ -100,6 +124,12 @@ export function take(card) {
     card.slot = get_empty_slot()
     hand.push(card)
     fire("draw_card", card)
+}
+
+export function use(card) {
+    if (!("used" in card)) return
+    if (card.used() === false) return
+    discard(card)
 }
 
 export function find(tag) {
