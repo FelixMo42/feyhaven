@@ -21,7 +21,7 @@ export function card_view(card) {
     return view
 }
 
-function rand(max, min=0) {
+export function rand(max, min=0) {
     return Math.random() * (max - min) + min
 }
 
