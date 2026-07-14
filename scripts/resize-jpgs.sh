@@ -3,11 +3,36 @@ set -euo pipefail
 
 TARGET_WIDTH=388
 TARGET_HEIGHT=534
-INPUT_DIR="${1:-res}"
+inputs=()
 
-shopt -s nullglob
+add_inputs() {
+    local path="$1"
 
-for input in "$INPUT_DIR"/*.jpg "$INPUT_DIR"/*.jpeg; do
+    if [ -d "$path" ]; then
+        shopt -s nullglob
+        inputs+=("$path"/*.jpg "$path"/*.jpeg)
+        return
+    fi
+
+    case "$path" in
+        *.jpg|*.jpeg)
+            inputs+=("$path")
+            ;;
+    esac
+}
+
+if [ "$#" -eq 0 ]; then
+    shopt -s nullglob
+    inputs=(res/*.jpg res/*.jpeg)
+else
+    for arg in "$@"; do
+        add_inputs "$arg"
+    done
+fi
+
+for input in "${inputs[@]}"; do
+    [ -e "$input" ] || continue
+
     tmp="$(mktemp "${TMPDIR:-/tmp}/feyhaven.XXXXXX.jpg")"
 
     if ffmpeg -hide_banner -loglevel error -y \

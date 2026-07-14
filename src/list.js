@@ -23,7 +23,8 @@ export default [
         text: "gain an 📦",
         tags: ["place", "starter"],
         base: 1,
-        used: () => pick("possession")
+        used: () => pick("possession"),
+        arts: "In the bazaar by August Macke"
     },
     {
         name: "The Office",
