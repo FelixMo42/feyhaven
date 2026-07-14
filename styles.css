@@ -36,6 +36,26 @@ body {
     padding: 10px;
 }
 
+/* JOY BAR */
+
+.circle {
+    border-radius: 50%;
+    aspect-ratio: 1;
+}
+
+#joy_bar {
+    background-color: yellow;
+}
+
+#joy_bar_gain {
+    background-color: yellow;
+    opacity: 0.25;
+}
+
+.bg_grey {
+    background-color: grey;
+}
+
 /* CARDS */
 
 .card_slot {

@@ -7,9 +7,15 @@ import {
 } from "./core.js"
 
 function update() {
+    console.log("Update")
+
+    document.getElementById("joy_bar").style.height = `${data.joy/365*100}%`
+    document.getElementById("joy_bar_gain").style.height = `${calculate_joy_gain()/365*100}%`
+
     document.getElementById("joy").innerText = data.joy
-    document.getElementById("turn").innerText = data.turn
     document.getElementById("joy_gain").innerText = calculate_joy_gain()
+
+    document.getElementById("turn").innerText = data.turn + 1
     document.getElementById("deck_count").innerText = deck.length
     document.getElementById("used_count").innerText = used.length
 }
@@ -156,6 +162,7 @@ on("pick", ({ tag, num }) => {
                 view.onclick = () => {
                     gain(card)
                     closePopup("hide")
+                    update()
                 }
 
                 return m("div.card_slot", view)
