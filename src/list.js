@@ -65,11 +65,15 @@ export default [
         arts: "The banking and stock exchange building in the Lord, Vienna by Rudolf von Alt"
     },
     {
-        name: "The Lotto",
+        name: "The Corner Store",
         text: "'big payouts!'",
         tags: ["place"],
         base: 1,
-        used: () => draw(1),
+        used: () => {
+            if (math.random() > 0.9) {
+                draw(8)
+            }
+        }
     },
     {
         name: "The Public Library",
