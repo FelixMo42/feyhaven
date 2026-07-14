@@ -24,7 +24,8 @@ export default [
         tags: ["place", "starter"],
         base: 1,
         used: () => pick("possession"),
-        arts: "In the bazaar by August Macke"
+        arts: "In the bazaar by August Macke",
+        logs: [`"One man's trash, that's another man's come up" - Macklemore`]
     },
     {
         name: "The Office",
@@ -32,7 +33,11 @@ export default [
         tags: ["place", "starter"],
         base: -4,
         used: () => draw(3),
-        arts: "New office by Phillie Casablanca"
+        arts: "New office by Phillie Casablanca",
+        logs: [
+            `"Sometimes I’ll start a sentence and I don’t even know where it’s going. I just hope I find it along the way." - your boss`,
+            `"I’m not superstitious, but I am a little stitious.- your boss"`,
+        ]
     },
     {
         name: "The Skanky Marmot",
@@ -97,7 +102,11 @@ export default [
         tags: ["person", "starter"],
         base: 1,
         used: () => find("place"),
-        arts: "Self-Portrait by Niko Pirosmani"
+        arts: "Self-Portrait by Niko Pirosmani",
+        logs: [
+            "A kindly stranger points the way.",
+            "You're jealous of his beard."
+        ]
     },
     {
         name: "The Girl Next Door",
@@ -106,13 +115,16 @@ export default [
         base: 5,
         used: () => pick("place"),
         arts: "Les enfants by Boris Grigoriev",
+        logs: [
+            "You meet the girl from the apartment across to yours in the elevator. She recommends you some cool places to check out."
+        ]
     },
     {
         name: "Cousin Liny",
         text: "meet one of his friend",
-        tags: ["person", "starter"],
+        tags: ["person", "starter", "liny"],
         base: 5,
-        gain: () => 2 * count("liny"),
+        gain: () => count("liny"),
         used: () => pick("liny"),
         arts: "The Geographer by Johannes Vermeer",
     },
@@ -123,6 +135,7 @@ export default [
         base: 5,
         used: () => draw(2),
         arts: "The Wife's Remonstrance by James Campbell",
+        logs: ["Chad hires you to baby sit while he's out dancing with Liny. You feel kinda left out, but at least his daughter is cool. You two have you're own dance party."]
     },
     
 
@@ -141,15 +154,16 @@ export default [
         used: () => {
             discard_all()
             draw()
-            log(`vroom vroom!`)
-        }
+        },
+        logs: ["Vroom vroom!"],
     },
     {
         name: "iPhone 16 mini",
         tags: ["possession", "starter"],
         text: "find a 👤",
         base: -3,
-        used: () => find("person")
+        used: () => find("person"),
+        logs: ["Ring ring... you there bitch?"]
     },
     {
         name: "Mushroom Guide",
@@ -163,7 +177,8 @@ export default [
         text: "find a 📦",
         tags: ["possession"],
         base: 1,
-        used: () => find("possession")
+        used: () => find("possession"),
+        logs: ["You once got lost yourself at work, but with the help of this handy gadget you managed to find yourself again!"]
     },
     {
         name: "A Credit Card",
@@ -171,5 +186,6 @@ export default [
         tags: ["possession"],
         base: 1,
         used: () => draw(3),
+        logs: ["It's almost like your not event spending any money!"]
     }
 ]

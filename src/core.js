@@ -70,7 +70,7 @@ export function discard_all() {
 }
 
 export function pick(tag, num=3) {
-    const options = shuffle(cards.filter(card =>
+    const options = shuffle(pool.filter(card =>
         card.tags.includes(tag) && 
         !card.has
     )).slice(0, num)
@@ -95,6 +95,7 @@ export function move(card, slot) {
 export function draw(num=6) {
     for (let i = 0; i < num; i++) {
         if (deck.length == 0) return
+        if (hand.length == 8) return
 
         const card = deck.pop()
         card.slot = get_empty_slot()
@@ -126,10 +127,13 @@ export function take(card) {
     fire("draw_card", card)
 }
 
-export function use(card) {
+export function play(card) {
     if (!("used" in card)) return
-    if (card.used() === false) return
     discard(card)
+    card.used()
+    if ("logs" in card) {
+        log(card.logs[Math.floor(Math.random() * card.logs.length)])
+    }
 }
 
 export function find(tag) {

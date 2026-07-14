@@ -4,7 +4,7 @@ A narrative deck builder about moving to a new town.
 
 ## Artwork
 
-You can see all the cards and their artwork [here](https://felixmo42.github.io/feyhaven/cards.html). All art is licensed under CC or is public domain.
+You can see all the cards and their artwork [here](https://felixmo42.github.io/feyhaven/cards.html). All art is licensed under CC or is public domain. Credits are in the game or can be found in list.js.
 
 Sources used to find artwork:
 - https://www.wikiart.org/

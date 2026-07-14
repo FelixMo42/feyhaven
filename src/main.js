@@ -2,7 +2,7 @@ import cards from "./list.js"
 import {
     on, log, init,
     hand, deck, used, data, 
-    gain, take, draw, end_turn, discard, shuffle, use,
+    gain, take, draw, end_turn, discard, shuffle, play,
     calculate_joy_gain,
 } from "./core.js"
 import { card_view, m, rand } from "./view.js"
@@ -68,7 +68,7 @@ on("draw_card", card => {
         if (is_double_click) {
             double_click.card = null
             double_click.time = 0
-            activate_card(card)
+            play(card)
             return
         }
 
@@ -189,14 +189,6 @@ function closePopup() {
     init(cards)
 
     // refresh screen
-    update()
-}
-
-function activate_card(card) {
-    if (!("used" in card)) return
-
-    discard(card)
-    card.used()
     update()
 }
 

@@ -61,7 +61,7 @@ body {
 
 .card_slot {
     position: relative;
-    border: 2px dashed grey;
+    border: 2px dashed rgba(128, 128, 128, 0.5);
 
     width: calc(var(--card-height) * 0.6);
     height: var(--card-height);
@@ -123,11 +123,11 @@ body {
 #log {
     margin: 10px;
     padding: 10px;
-    border: 1px solid grey;
+    border: 1px solid lightgrey;
 }
 
 .log {
-    
+    padding: 10px;
 }
 
 /* POPUP */
@@ -168,5 +168,6 @@ body {
 }
 
 #info {
-    color:antiquewhite;
+    color: black;
+    opacity: 0.75;
 }
