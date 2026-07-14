@@ -16,7 +16,7 @@ export function card_view(card) {
 
     // set background image
     const bg = card.name.toLowerCase().replaceAll(" ", "_")
-    bg_el.style.setProperty("background-image", `url(res/${bg}.png)`)
+    bg_el.style.setProperty("background-image", `url(res/${bg}.jpg)`)
 
     return view
 }

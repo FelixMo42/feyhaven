@@ -76,6 +76,7 @@ export default [
         tags: ["place"],
         base: 1,
         gain: () => used.length,
+        arts: "Nautilus Library Nemo Aronnax by Edouard Riou"
     },
     {
         name: "The Döner Party",
