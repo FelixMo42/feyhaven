@@ -1,10 +1,11 @@
-import cards from "./cards.js"
+import cards from "./list.js"
 import {
     on, log, init,
     hand, deck, used, data, 
     gain, take, draw, end_turn, discard, shuffle, use,
     calculate_joy_gain,
 } from "./core.js"
+import { card_view, m, rand } from "./view.js"
 
 function update() {
     console.log("Update")
@@ -23,29 +24,6 @@ function update() {
 document.getElementById("end_turn").onclick = () => {
     end_turn()
     update()
-}
-
-function card_view(card) {
-    const bg_el = m(`div.card_image`)
-    const view = m(`div.card`,
-        m("div.row",
-            m(`div.card_name.flex`, card.name),
-            m(`div.card_joy`, card.base),
-        ),
-        bg_el,
-        m(`div.card_text`, card.text)
-    )
-
-    // set random offset
-    view.style.setProperty("--offset-x", rand(2, -5))
-    view.style.setProperty("--offset-y", rand(2, -5))
-    view.style.setProperty("--rotation", rand(1, -1))
-
-    // set background image
-    const bg = card.name.toLowerCase().replaceAll(" ", "_")
-    bg_el.style.setProperty("background-image", `url(res/${bg}.png)`)
-
-    return view
 }
 
 const drag = {}
@@ -184,6 +162,7 @@ on("find", tag => {
                 view.onclick = () => {
                     take(card)
                     closePopup("hide")
+                    update()
                 }
 
                 return m("div.card_slot", view)
@@ -213,10 +192,6 @@ function closePopup() {
     update()
 }
 
-function rand(max, min=0) {
-    return Math.random() * (max - min) + min
-}
-
 function activate_card(card) {
     if (!("used" in card)) return
 
@@ -229,17 +204,4 @@ function get_slot_under_point(x, y) {
     return document.elementsFromPoint(x, y).find(el =>
         el.classList?.contains("card_slot")
     ) ?? null
-}
-
-/**
- * 
- * @param {string} tag 
- * @returns 
- */
-function m(tag, ...children) {
-    const [tagName, ...classes] = tag.split(".")
-    const e = document.createElement(tagName)
-    e.classList.add(...classes)
-    e.replaceChildren(...children)
-    return e
 }

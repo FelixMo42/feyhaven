@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to Feyhaven</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="row g p" style="flex-wrap: wrap; justify-content: center; overflow: scroll;">
+    
+</body>
+<script type="module">
+    import { card_view, m } from "./src/view.js"
+    import cards from "./src/list.js"
+
+    for (const card of cards) {
+        document.body.appendChild(m("div.card_slot", card_view(card)))
+    }
+
+</script>
+</html>

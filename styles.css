@@ -159,3 +159,13 @@ body {
     z-index: 10;
     filter: drop-shadow(0px 0px 1px);
 }
+
+
+.tip {
+    text-decoration-line: underline;
+    text-decoration-style: dashed;
+}
+
+#info {
+    color:antiquewhite;
+}

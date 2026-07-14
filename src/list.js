@@ -9,18 +9,18 @@ import {
     log,
 } from "./core.js"
 
-export default cards = [
+export default [
     {
         name: "The Apartment",
-        text: "+1 joy per 📦 and 👤",
+        text: "+1 ☺️ per 📦 and 👤",
         tags: ["place", "starter"],
-
         base: 2,
-        gain: () => count("possession") + count("person")
+        gain: () => count("possession") + count("person"),
+        arts: "The Apartment by Felix Moses"
     },
     {
         name: "Salvation Navy",
-        text: "pick a random 📦",
+        text: "gain an 📦",
         tags: ["place", "starter"],
         base: 1,
         used: () => pick("possession")
@@ -31,24 +31,27 @@ export default cards = [
         tags: ["place", "starter"],
         base: -4,
         used: () => draw(3),
+        arts: "New office by Phillie Casablanca"
     },
     {
         name: "The Skanky Marmot",
-        text: "Liny et al, hangout out spot",
+        text: "+3 😂 per Liny et al",
         tags: ["place"],
         base: 3,
         gain: () => 3 * count("liny"),
+        arts: "Peasants before an Inn by Jan Steen"
     },
     {
         name: "The sidewalk",
-        text: "pick a random 🗺️ & draw a card",
+        text: "gain a 🗺️ & draw a 🃏",
         tags: ["place"],
         base: 1,
-        used: () => pick("place") + draw(1)
+        used: () => pick("place") + draw(1),
+        arts: "Flagstone Sidewalk, Portsmouth, New Hampshire by Childe Hassam"
     },
     {
-        name: "The Arcade",
-        text: "fun!",
+        name: "The Flip",
+        text: "A Pinball Museum!",
         tags: ["place"],
         base: 10,
     },
@@ -58,24 +61,25 @@ export default cards = [
         tags: ["place"],
         base: 0,
         used: () => draw(hand.length),
+        arts: "The banking and stock exchange building in the Lord, Vienna by Rudolf von Alt"
     },
     {
         name: "The Lotto",
-        text: "Change of drawing max cards",
+        text: "'big payouts!'",
         tags: ["place"],
         base: 1,
         used: () => draw(1),
     },
     {
         name: "The Public Library",
-        text: "+1 joy per used card",
+        text: "+1 joy per used 🃏",
         tags: ["place"],
         base: 1,
         gain: () => used.length,
     },
     {
         name: "The Döner Party",
-        text: "draw 3 cards",
+        text: "draw 3 🃏s",
         tags: ["place"],
         base: 5,
         used: () => draw(3),
@@ -86,14 +90,16 @@ export default cards = [
         text: "find a 🗺️",
         tags: ["person", "starter"],
         base: 1,
-        used: () => find("place")
+        used: () => find("place"),
+        arts: "Self-Portrait by Niko Pirosmani"
     },
     {
         name: "The Girl Next Door",
         text: "pick a random 🗺️",
         tags: ["person", "starter"],
         base: 5,
-        used: () => pick("place")
+        used: () => pick("place"),
+        arts: "Les enfants by Boris Grigoriev",
     },
     {
         name: "Cousin Liny",
@@ -101,7 +107,8 @@ export default cards = [
         tags: ["person", "starter"],
         base: 5,
         gain: () => 2 * count("liny"),
-        used: () => pick("liny")
+        used: () => pick("liny"),
+        arts: "The Geographer by Johannes Vermeer",
     },
     {
         name: "Chad the Dad",
@@ -109,14 +116,16 @@ export default cards = [
         tags: ["person", "liny"],
         base: 5,
         used: () => draw(2),
+        arts: "The Wife's Remonstrance by James Campbell",
     },
     
 
     {
-        name: "Teddy Bear",
+        name: "Teddius Rex",
         text: "💖 💖 💖",
         tags: ["possession", "starter"],
-        base: 9
+        base: 9,
+        arts: "Archaeologist by Dean Moses"
     },
     {
         name: "2016 Honda Civic",
