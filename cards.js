@@ -148,7 +148,7 @@ export default cards = [
         text: "find a 📦",
         tags: ["possession"],
         base: 1,
-        gain: () => count("place")
+        used: () => find("possession")
     },
     {
         name: "A Credit Card",
