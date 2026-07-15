@@ -12,27 +12,29 @@ import { card_view, m, rand } from "./view.js"
 function update() {
     console.log("Update")
 
-    document.getElementById("joy_bar").style.height = `${data.joy/365*100}%`
-    document.getElementById("joy_bar_gain").style.height = `${calculate_joy_gain()/365*100}%`
+    byId("joy_bar").style.height = `${data.joy/365*100}%`
+    byId("joy_bar_gain").style.height = `${calculate_joy_gain()/365*100}%`
 
-    document.getElementById("joy").innerText = data.joy
-    document.getElementById("joy_gain").innerText = calculate_joy_gain()
+    byId("joy").innerText = data.joy
+    byId("joy_gain").innerText = calculate_joy_gain()
 
-    document.getElementById("turn").innerText = data.turn + 1
-    document.getElementById("deck_count").innerText = deck.length
-    document.getElementById("used_count").innerText = used.length
+    byId("turn").innerText = data.turn + 1
+    byId("deck_count").innerText = deck.length
+    byId("used_count").innerText = used.length
 }
 
-document.getElementById("end_turn").onclick = () => turn() + update()
-document.getElementById("action_show_deck").onclick = () => show(deck)
-document.getElementById("action_show_used").onclick = () => show(used)
+const byId = document.getElementById.bind(document)
+
+byId("end_turn").onclick = () => turn() + update()
+byId("action_show_deck").onclick = () => show(deck)
+byId("action_show_used").onclick = () => show(used)
 
 /* GAME HOOKS */
 
 recv("draw", card => {
     const view = card_view(card)
 
-    document.getElementById(`card_${card.slot}`).replaceChildren(view)
+    byId(`card_${card.slot}`).replaceChildren(view)
 
     view.onmousedown = _event => {
         view.style.setProperty("--offset-x", 0)
@@ -71,6 +73,14 @@ recv("draw", card => {
         double_click.card = card
         double_click.time = now
     }
+
+    view.onmouseenter = () => {
+        if (card.arts) byId("credits").innerText = card.arts
+    }
+
+    view.onmouseleave = () => {
+        byId("credits").innerText = ""
+    }
 })
 
 recv("pick", ({ options }) => {
@@ -83,12 +93,12 @@ recv("find", ({ options }) => {
 
 recv("turn", () => {
     for (let i = 0; i < 8; i++) {
-        document.getElementById(`card_${i}`).replaceChildren()
+        byId(`card_${i}`).replaceChildren()
     }
 })
 
 recv("log", text => {
-    document.getElementById("log").prepend(m("div.log", text))
+    byId("log").prepend(m("div.log", text))
 })
 
 function show(list, func) {
@@ -171,14 +181,14 @@ document.addEventListener("mousemove", event => {
 /* POP UP HANDING */
 
 function openPopup(view) {
-    const popup = document.getElementById("popup")
+    const popup = byId("popup")
     popup.classList.remove("hide")
     popup.replaceChildren(view)
     return popup
 }
 
 function hidePopup() {
-    document.getElementById("popup").classList.add("hide")
+    byId("popup").classList.add("hide")
 }
 
 /* START THE GAME */

@@ -19,8 +19,7 @@ bugs:
 - negative scores are not well handled
 
 feats:
-1. show art credits on hover
-2. end screen
+1. end screen
 - start screen
 - interactive logs
 - merging cards
