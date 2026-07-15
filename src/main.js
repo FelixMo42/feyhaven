@@ -25,9 +25,32 @@ function update() {
 
 const byId = document.getElementById.bind(document)
 
-byId("end_turn").onclick = () => turn() + update()
 byId("action_show_deck").onclick = () => show(deck)
 byId("action_show_used").onclick = () => show(used)
+
+byId("end_turn").onclick = () => {
+    if (data.turn == 3) {
+        if (data.joy >= 365) return openPopup(m("div.center.col.g",
+            m("div.p.bg_white.rounded",
+                m("h1", "You WIN!!!!!!!!!"),
+            ),
+        ))
+        
+        else return openPopup(m("div.center.col.g",
+            m("div.p.bg_white.rounded",
+                m("h1", "You are now leaving Feyhaven"),
+            ),
+            m("div.p.bg_white.rounded",
+                "You lost this time, but maybe next time!",
+                m("br"),
+                "Reload the page to play again.",
+            )
+        ))
+    }
+
+    turn()
+    update()
+}
 
 /* GAME HOOKS */
 

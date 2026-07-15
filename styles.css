@@ -70,6 +70,14 @@ body {
     background-color: grey;
 }
 
+.bg_white {
+    background-color: white;
+}
+
+.rounded {
+    border-radius: 10px;
+}
+
 /* CARDS */
 
 .card_slot {

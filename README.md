@@ -19,7 +19,6 @@ bugs:
 - negative scores are not well handled
 
 feats:
-1. end screen
 - start screen
 - interactive logs
 - merging cards

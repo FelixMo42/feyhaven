@@ -17,7 +17,6 @@ export const hand = []
 export const used = []
 export const data = {
     joy: 0,
-    $$$: 3000,
     turn: 0,
 }
 
