@@ -1,11 +1,13 @@
 import cards from "./list.js"
 import {
-    on, log, init,
+    on as recv, log, init,
     pool, hand, deck, used, data, 
     gain, take, draw, turn, drop, shuf, play,
-    calculate_joy_gain,
+    calculate_joy_gain, is_slot_empty,
 } from "./core.js"
 import { card_view, m, rand } from "./view.js"
+
+/* UI HOOKS */
 
 function update() {
     console.log("Update")
@@ -21,20 +23,13 @@ function update() {
     document.getElementById("used_count").innerText = used.length
 }
 
-document.getElementById("end_turn").onclick = () => {
-    turn()
-    update()
-}
+document.getElementById("end_turn").onclick = () => turn() + update()
+document.getElementById("action_show_deck").onclick = () => show(deck)
+document.getElementById("action_show_used").onclick = () => show(used)
 
-const drag = {}
-const double_click = {
-    card: null,
-    time: 0,
-}
-const DOUBLE_CLICK_MS = 300
-const DRAG_THRESHOLD = 5
+/* GAME HOOKS */
 
-on("draw_card", card => {
+recv("draw", card => {
     const view = card_view(card)
 
     document.getElementById(`card_${card.slot}`).replaceChildren(view)
@@ -78,11 +73,51 @@ on("draw_card", card => {
     }
 })
 
-function is_slot_empty(slot) {
-    for (const card of hand) {
-        if (card.slot == slot) return false
+recv("pick", ({ options }) => {
+    show(options, gain)
+})
+
+recv("find", ({ options }) => {
+    show(options, take)
+})
+
+recv("turn", () => {
+    for (let i = 0; i < 8; i++) {
+        document.getElementById(`card_${i}`).replaceChildren()
     }
-    return true
+})
+
+recv("log", text => {
+    document.getElementById("log").prepend(m("div.log", text))
+})
+
+function show(list, func) {
+    openPopup(m("div.row.g.vp.center.wrap",
+        ...list.map((card) => {
+            const view = card_view(card)
+
+            if (func) view.onclick = () => {
+                hidePopup("hide")
+                func(card)
+                update()
+            }
+
+            return m("div.card_slot", view)
+        })
+    )).onclick = () => {
+        if (!func) hidePopup()
+    }
+}
+
+/* DRAG AND DROP HANDLING */
+
+const DOUBLE_CLICK_MS = 300
+const DRAG_THRESHOLD = 5
+
+const drag = {}
+const double_click = {
+    card: null,
+    time: 0,
 }
 
 document.addEventListener("mouseup", event => {
@@ -111,6 +146,12 @@ document.addEventListener("mouseup", event => {
     drag.view.classList.remove("dragging")
     drag.view = null
     drag.card = null
+
+    function get_slot_under_point(x, y) {
+        return document.elementsFromPoint(x, y).find(el =>
+            el.classList?.contains("card_slot")
+        ) ?? null
+    }
 })
 
 document.addEventListener("mousemove", event => {
@@ -127,70 +168,25 @@ document.addEventListener("mousemove", event => {
     }
 })
 
-on("pick", ({ options }) => {
-    openPopup(
-        m("div.row.g.center",
-            ...options.map((card) => {
-                const view = card_view(card)
-
-                view.onclick = () => {
-                    gain(card)
-                    closePopup("hide")
-                    update()
-                }
-
-                return m("div.card_slot", view)
-            })
-        )
-    )
-})
-
-on("find", ({ options }) => {
-    openPopup(
-        m("div.row.g.center",
-            ...options.map((card) => {
-                const view = card_view(card)
-
-                view.onclick = () => {
-                    take(card)
-                    closePopup("hide")
-                    update()
-                }
-
-                return m("div.card_slot", view)
-            })
-        )
-    )
-})
-
-on("log", text => {
-    document.getElementById("log").prepend(m("div.log", text))
-})
-
-on("turn", () => {
-    for (let i = 0; i < 8; i++) {
-        document.getElementById(`card_${i}`).replaceChildren()
-    }
-})
+/* POP UP HANDING */
 
 function openPopup(view) {
-    document.getElementById("popup").classList.remove("hide")
-    document.getElementById("popup").replaceChildren(view)
+    const popup = document.getElementById("popup")
+    popup.classList.remove("hide")
+    popup.replaceChildren(view)
+    return popup
 }
 
-function closePopup() {
+function hidePopup() {
     document.getElementById("popup").classList.add("hide")
 }
 
+/* START THE GAME */
+
 {
+    // TODO: this should be a deep copy if we want to be able to replay
     init(cards)
 
     // refresh screen
     update()
-}
-
-function get_slot_under_point(x, y) {
-    return document.elementsFromPoint(x, y).find(el =>
-        el.classList?.contains("card_slot")
-    ) ?? null
 }

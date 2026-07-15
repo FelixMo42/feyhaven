@@ -133,7 +133,7 @@ export function draw(num=6) {
         const card = deck.pop()
         card.slot = get_empty_slot()
         hand.push(card)
-        fire("draw_card", card)
+        fire("draw", card)
     }
 }
 
@@ -157,7 +157,7 @@ export function take(card) {
     deck.splice(deck.indexOf(card), 1)
     card.slot = get_empty_slot()
     hand.push(card)
-    fire("draw_card", card)
+    fire("draw", card)
 }
 
 export function play(card) {
@@ -202,4 +202,11 @@ export function turn() {
 
     // next turn!
     data.turn += 1
+}
+
+export function is_slot_empty(slot) {
+    for (const card of hand) {
+        if (card.slot == slot) return false
+    }
+    return true
 }

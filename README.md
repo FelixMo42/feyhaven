@@ -15,16 +15,13 @@ Sources used to find artwork:
 ## Dev Backlog
 
 bugs:
-- if there are too many cards to choose from you can't see them
 - text overflow when score get's too three figures
 - negative scores are not well handled
 
 feats:
-- show cards in deck
-- show used cards
-- show art credits on hover
+1. show art credits on hover
+2. end screen
 - start screen
-- end screen
 - interactive logs
 - merging cards
 
