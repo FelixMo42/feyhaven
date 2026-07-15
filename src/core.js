@@ -155,6 +155,7 @@ export function end_turn() {
     shuffle()
     used.length = 0
     hand.length = 0
+    fire("turn")
 
     // redraw
     draw()

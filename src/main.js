@@ -69,6 +69,7 @@ on("draw_card", card => {
             double_click.card = null
             double_click.time = 0
             play(card)
+            update()
             return
         }
 
@@ -127,7 +128,6 @@ document.addEventListener("mousemove", event => {
 })
 
 on("pick", ({ options }) => {
-
     openPopup(
         m("div.row.g.center",
             ...options.map((card) => {
@@ -169,7 +169,13 @@ on("find", tag => {
 
 on("log", text => {
     console.log(text)
-    document.getElementById("log").appendChild(m("div.log", text))
+    document.getElementById("log").prepend(m("div.log", text))
+})
+
+on("turn", () => {
+    for (let i = 0; i < 8; i++) {
+        document.getElementById(`card_${i}`).replaceChildren()
+    }
 })
 
 function openPopup(view) {

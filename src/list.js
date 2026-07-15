@@ -36,7 +36,7 @@ export default [
         arts: "New office by Phillie Casablanca",
         logs: [
             `"Sometimes I’ll start a sentence and I don’t even know where it’s going. I just hope I find it along the way." - your boss`,
-            `"I’m not superstitious, but I am a little stitious.- your boss"`,
+            `"I’m not superstitious, but I am a little stitious." - your boss`,
         ]
     },
     {

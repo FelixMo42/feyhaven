@@ -18,7 +18,8 @@ bugs:
 - pick with no cards blocks the game
 - find with no cards blocks the game
 - if there are too many cards to choose from you can't see them
-- cards from previous hand are still shown in empty slots
+- text overflow when score get's too three figures
+- negative scores are not well handled
 
 feats:
 - show cards in deck
@@ -26,3 +27,9 @@ feats:
 - show art credits on hover
 - start screen
 - end screen
+- interactive logs
+- merging cards
+
+cards:
+- who are Liny's friends?
+- make the game actually beatable
