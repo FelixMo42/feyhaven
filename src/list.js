@@ -127,6 +127,10 @@ export default [
         gain: () => count("liny"),
         used: () => pick("liny"),
         arts: "The Geographer by Johannes Vermeer",
+        logs: [
+            "Your cousin Liny introduces you to one of his friends."
+        ],
+        fail: "You've meet all of Liny's friends!"
     },
     {
         name: "Chad the Dad",
@@ -185,7 +189,7 @@ export default [
         text: "draw 3 cards",
         tags: ["possession"],
         base: 1,
-        used: () => draw(3),
+        post: () => draw(3),
         logs: ["It's almost like your not event spending any money!"]
     }
 ]

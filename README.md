@@ -15,8 +15,6 @@ Sources used to find artwork:
 ## Dev Backlog
 
 bugs:
-- pick with no cards blocks the game
-- find with no cards blocks the game
 - if there are too many cards to choose from you can't see them
 - text overflow when score get's too three figures
 - negative scores are not well handled

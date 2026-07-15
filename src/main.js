@@ -2,7 +2,7 @@ import cards from "./list.js"
 import {
     on, log, init,
     pool, hand, deck, used, data, 
-    gain, take, draw, end_turn, discard, shuffle, play,
+    gain, take, draw, turn, drop, shuf, play,
     calculate_joy_gain,
 } from "./core.js"
 import { card_view, m, rand } from "./view.js"
@@ -22,7 +22,7 @@ function update() {
 }
 
 document.getElementById("end_turn").onclick = () => {
-    end_turn()
+    turn()
     update()
 }
 
@@ -145,11 +145,7 @@ on("pick", ({ options }) => {
     )
 })
 
-on("find", tag => {
-    const options = shuffle(deck.filter(card =>
-        card.tags.includes(tag)
-    ))
-
+on("find", ({ options }) => {
     openPopup(
         m("div.row.g.center",
             ...options.map((card) => {
@@ -168,7 +164,6 @@ on("find", tag => {
 })
 
 on("log", text => {
-    console.log(text)
     document.getElementById("log").prepend(m("div.log", text))
 })
 
